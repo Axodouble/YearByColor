@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Year by Color</title>
+    <style>
+      body,
+      html {
+        margin: 0;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Arial, sans-serif;
+        color: #fff;
+        transition: background-color 1s linear;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="time"></h1>
+
+    <script>
+      function updateBackgroundColor() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const startOfYear = new Date(year, 0, 1);
+        const endOfYear = new Date(year + 1, 0, 1);
+
+        const totalSecondsInYear = (endOfYear - startOfYear) / 1000;
+
+        const currentTimeInSeconds = (now - startOfYear) / 1000;
+
+        const colorValue = Math.floor(
+          (currentTimeInSeconds / totalSecondsInYear) * 0xffffff
+        );
+        const hexColor = `#${colorValue.toString(16).padStart(6, "0")}`;
+
+        document.body.style.backgroundColor = hexColor;
+
+        const timeString = now.toLocaleString();
+        document.getElementById("time").textContent =
+          timeString + " | " + hexColor;
+
+        setTimeout(updateBackgroundColor, 1000);
+      }
+      updateBackgroundColor();
+    </script>
+  </body>
+</html>
