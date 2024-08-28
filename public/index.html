@@ -23,14 +23,16 @@
 
     <script>
       function updateBackgroundColor() {
-        const now = new Date();
-        const year = now.getFullYear();
+        backgroundColor(new Date());
+      }
+
+      function backgroundColor(date) {
+        const year = date.getFullYear();
         const startOfYear = new Date(year, 0, 1);
         const endOfYear = new Date(year + 1, 0, 1);
 
         const totalSecondsInYear = (endOfYear - startOfYear) / 1000;
-
-        const currentTimeInSeconds = (now - startOfYear) / 1000;
+        const currentTimeInSeconds = (date - startOfYear) / 1000;
 
         const colorValue = Math.floor(
           (currentTimeInSeconds / totalSecondsInYear) * 0xffffff
@@ -39,12 +41,42 @@
 
         document.body.style.backgroundColor = hexColor;
 
-        const timeString = now.toLocaleString();
+        const timeString = date.toLocaleString();
         document.getElementById("time").textContent =
           timeString + " | " + hexColor;
 
         setTimeout(updateBackgroundColor, 1000);
       }
+
+      document.addEventListener("mousedown", function (event) {
+        event.preventDefault();
+        const userHex = prompt(
+          "Enter a hex code (e.g., #ff5733) to see when it appears:"
+        );
+        if (userHex && /^#[0-9A-Fa-f]{6}$/.test(userHex)) {
+          const timeToAppear = calculateTimeForHex(userHex);
+          alert(`The color ${userHex} will appear on: ${timeToAppear}`);
+        } else {
+          alert("Invalid hex code. Please enter a valid 6-character hex code.");
+        }
+      });
+
+      function calculateTimeForHex(hex) {
+        const year = new Date().getFullYear();
+        const startOfYear = new Date(year, 0, 1);
+        const endOfYear = new Date(year + 1, 0, 1);
+
+        const totalSecondsInYear = (endOfYear - startOfYear) / 1000;
+        const colorValue = parseInt(hex.slice(1), 16);
+        const secondsForColor = (colorValue / 0xffffff) * totalSecondsInYear;
+
+        const dateForColor = new Date(
+          startOfYear.getTime() + secondsForColor * 1000
+        );
+
+        return dateForColor.toLocaleString();
+      }
+
       updateBackgroundColor();
     </script>
   </body>
