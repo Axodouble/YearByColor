@@ -64,6 +64,9 @@
         else if (month === 10) month = "November";
         else if (month === 11) month = "December";
 
+        let hours = date.getHours();
+        if (hours < 10) hours = "0" + hours;
+
         let minutes = date.getMinutes();
         if (minutes < 10) minutes = "0" + minutes;
 
@@ -75,7 +78,7 @@
           " " +
           month +
           " " +
-          date.getHours() +
+          hours +
           ":" +
           minutes +
           ":" +
