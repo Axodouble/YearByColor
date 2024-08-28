@@ -49,15 +49,19 @@
       }
 
       document.addEventListener("mousedown", function (event) {
-        event.preventDefault();
-        const userHex = prompt(
-          "Enter a hex code (e.g., #ff5733) to see when it appears:"
-        );
-        if (userHex && /^#[0-9A-Fa-f]{6}$/.test(userHex)) {
-          const timeToAppear = calculateTimeForHex(userHex);
-          alert(`The color ${userHex} will appear on: ${timeToAppear}`);
-        } else {
-          alert("Invalid hex code. Please enter a valid 6-character hex code.");
+        if (event.button === 1) {
+          event.preventDefault();
+          const userHex = prompt(
+            "Enter a hex code (e.g., #ff5733) to see when it appears:"
+          );
+          if (userHex && /^#[0-9A-Fa-f]{6}$/.test(userHex)) {
+            const timeToAppear = calculateTimeForHex(userHex);
+            alert(`The color ${userHex} will appear on: ${timeToAppear}`);
+          } else {
+            alert(
+              "Invalid hex code. Please enter a valid 6-character hex code."
+            );
+          }
         }
       });
 
